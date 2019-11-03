@@ -1,0 +1,28 @@
+type Workshop {
+  id: Int!
+  memberId: Int
+  created: String!
+  title: String!
+  description: String
+  date: String
+  maxPlaces: Int
+  attendees: Int
+  price: Int
+  place: String
+  image: File!
+}
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+# Top level declarations
+type Query {
+  about: String!
+  workshopList: [Workshop!]!
+}
+type Mutation {
+  setAboutMessage(message: String!): String
+}
