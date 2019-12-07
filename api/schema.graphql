@@ -1,0 +1,48 @@
+scalar GraphQLDate
+
+type Workshop {
+  _id: ID!
+  id: Int!
+  created: GraphQLDate!
+  title: String!
+  description: String!
+  date: GraphQLDate!
+  place: String!
+  images: Images!
+}
+
+type Images {
+  imageThumb: String!
+  imageOriginal: String!
+  imageWatermark: String!
+}
+input ImageInputs {
+  imageThumb: String!
+  imageOriginal: String!
+  imageWatermark: String!
+}
+# image: File!
+# memberId: Int!
+# image: File!
+# maxPlaces: Int
+# attendees: Int
+# price: Int
+
+input WorkshopInputs {
+  title: String!
+  date: GraphQLDate!
+  place: String!
+  description: String!
+  images: ImageInputs!
+}
+# memberId: Int!
+
+# Top level declarations
+type Query {
+  about: String!
+  workshopList: [Workshop!]!
+}
+type Mutation {
+  setAboutMessage(message: String!): String
+  workshopAdd(workshop: WorkshopInputs!): Workshop!
+}
