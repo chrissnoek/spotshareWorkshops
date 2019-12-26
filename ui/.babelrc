@@ -3,6 +3,7 @@
     [
       "@babel/preset-env",
       {
+        "useBuiltIns": "usage",
         "targets": {
           "ie": "11",
           "edge": "15",
@@ -14,7 +15,9 @@
     ],
     "@babel/preset-react"
   ],
+  "sourceType": "unambiguous",
   "plugins": [
+    ["@babel/plugin-transform-modules-commonjs"],
     [
       "@babel/plugin-proposal-class-properties",
       {

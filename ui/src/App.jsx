@@ -62,7 +62,7 @@ function jsonDateReviver(key, value) {
   return value;
 }
 
-class WorkshopFilter extends Component {
+class WorkshopFilter extends React.Component {
   //asdf
   render() {
     return <div>This is a placholder for the WorkshopFilter</div>;
@@ -111,7 +111,7 @@ function WorkshopCarousel(props) {
   return <div>{workshops}</div>;
 }
 
-class WorkshopAdd extends Component {
+class WorkshopAdd extends React.Component {
   constructor() {
     super();
     this.state = {};
@@ -247,7 +247,7 @@ async function graphQLFetch(query, variables = {}) {
   }
 }
 
-class WorkshopPage extends Component {
+class WorkshopPage extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -277,7 +277,8 @@ class WorkshopPage extends Component {
 
     const data = await graphQLFetch(query);
     if (data) {
-      this.setState({ workshops: result.data.workshopList });
+      console.log(data);
+      this.setState({ workshops: data.workshopList });
     }
   }
 

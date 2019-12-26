@@ -14,12 +14,11 @@ const imagesApi = require("./routes/images");
 
 const app = express();
 
-const enableCors = (process.env.ENABLE_CORS || "true") == "true";
+const enableCors = (process.env.ENABLE_CORS || "true") === "true";
 console.log("CORS SETTINGS:", enableCors);
 
 let aboutMessage = "This is the about message";
-const url =
-  process.env.DB_URL ||
+const url = process.env.DB_URL ||
   "mongodb+srv://spotshare:shareaspot01@cluster0-wg2gb.mongodb.net/test";
 
 let db;
@@ -46,7 +45,7 @@ const workshopList = async () => {
 function workshopValidate(workshop) {
   const errors = [];
   if (workshop.title.length < 3) {
-    errors.push('Field "title" must be at least 3 characters long.');
+    errors.push("Field 'title' must be at least 3 characters long.");
   }
   // if (workshop.status === "Assigned" && !workshop.owner) {
   //   errors.push('Field "owner" is required when status is "Assigned"');
@@ -80,7 +79,8 @@ const workshopAdd = async (_, { workshop }) => {
 };
 
 const setAboutMessage = (_, { message }) => {
-  return (aboutMessage = message);
+  aboutMessage = message;
+  return aboutMessage;
 };
 
 const GraphQLDate = new GraphQLScalarType({
@@ -96,7 +96,7 @@ const GraphQLDate = new GraphQLScalarType({
   },
   // gets invoked to parse client input that was passed inline in the query
   parseLiteral(ast) {
-    return ast.kind == Kind.STRING ? new Date(ast.value) : undefined;
+    return ast.kind === Kind.STRING ? new Date(ast.value) : undefined;
   }
 });
 
