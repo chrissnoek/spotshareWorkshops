@@ -9,10 +9,7 @@
       "double"
     ],
     "no-console": "off",
-    "comma-dangle": "off",
-    "no-undef": "off",
-    "arrow-parens": "off",
-    "no-shadow": "off",
-    "indent": "off"
+    "operator-linebreak": "off",
+    "comma-dangle": "off"
   }
 }

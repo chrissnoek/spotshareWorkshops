@@ -1,13 +1,12 @@
 const express = require("express");
-const router = express.Router();
-
 const multer = require("multer");
 const aws = require("aws-sdk");
 const multerS3 = require("multer-s3-transform");
-
 const sharp = require("sharp");
+const path = require("path");
 
-var path = require("path");
+const router = express.Router();
+
 require("dotenv").config();
 
 aws.config.update({
@@ -17,15 +16,14 @@ aws.config.update({
 });
 
 // Load User model
-//const User = require("../../models/User");
-
+// const User = require("../../models/User");
 // @route POST api/images/upload
 // @desc Register user
 // @access Public
 
 const s3 = new aws.S3();
 
-// var storage = multer.diskStorage({
+// let storage = multer.diskStorage({
 //   destination: function(req, file, cb) {
 //     cb(null, "./public/images");
 //   },
@@ -40,50 +38,41 @@ const s3 = new aws.S3();
 //   }
 // });
 
-var storage = multerS3({
+const storage = multerS3({
   acl: "public-read",
-  s3: s3,
+  s3,
   bucket: "spotsharenl",
-  key: function(req, file, cb) {
+  key(req, file, cb) {
     cb(
       null,
-      path.parse(file.originalname).name +
-        "-" +
-        Date.now() +
-        path.extname(file.originalname)
+      `${path.parse(file.originalname).name}-${Date.now()}${path.extname(file.originalname)}`
     );
   },
-  shouldTransform: function(req, file, cb) {
+  shouldTransform(req, file, cb) {
     cb(null, /^image/i.test(file.mimetype));
   },
   transforms: [
     {
       id: "original",
-      key: function(req, file, cb) {
+      key(req, file, cb) {
         cb(
           null,
-          path.parse(file.originalname).name +
-            "-original-" +
-            Date.now() +
-            path.extname(file.originalname)
+          `${path.parse(file.originalname).name}-original-${Date.now()}${path.extname(file.originalname)}`
         );
       },
-      transform: function(req, file, cb) {
+      transform(req, file, cb) {
         cb(null, sharp().jpeg());
       }
     },
     {
       id: "thumbnail",
-      key: function(req, file, cb) {
+      key(req, file, cb) {
         cb(
           null,
-          path.parse(file.originalname).name +
-            "-thumb-" +
-            Date.now() +
-            path.extname(file.originalname)
+          `${path.parse(file.originalname).name}-thumb-${Date.now()}${path.extname(file.originalname)}`
         );
       },
-      transform: function(req, file, cb) {
+      transform(req, file, cb) {
         cb(
           null,
           sharp()
@@ -94,16 +83,13 @@ var storage = multerS3({
     },
     {
       id: "watermark",
-      key: function(req, file, cb) {
+      key(req, file, cb) {
         cb(
           null,
-          path.parse(file.originalname).name +
-            "-watermark-" +
-            Date.now() +
-            path.extname(file.originalname)
+          `${path.parse(file.originalname).name}-watermark-${Date.now()}${path.extname(file.originalname)}`
         );
       },
-      transform: function(req, file, cb) {
+      transform(req, file, cb) {
         cb(
           null,
           sharp()
@@ -121,18 +107,18 @@ var storage = multerS3({
   ]
 });
 
-var upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 router.post("/upload", upload.single("workshopImage"), (req, res) => {
-  const file = req.file;
-  console.log(req.file);
+  const { file } = req;
+  console.log(file);
   if (!file) {
     const error = new Error("Please upload a file");
     error.httpStatusCode = 400;
     return next(error);
   }
   file.cloudfront = "http://dkotwt30gflnm.cloudfront.net/";
-  res.send(file);
+  return res.send(file);
 });
 
 module.exports = router;

@@ -18,8 +18,7 @@ const enableCors = (process.env.ENABLE_CORS || "true") === "true";
 console.log("CORS SETTINGS:", enableCors);
 
 let aboutMessage = "This is the about message";
-const url = process.env.DB_URL ||
-  "mongodb+srv://spotshare:shareaspot01@cluster0-wg2gb.mongodb.net/test";
+const url = process.env.DB_URL || "mongodb+srv://spotshare:shareaspot01@cluster0-wg2gb.mongodb.net/test";
 
 let db;
 
@@ -68,10 +67,11 @@ const getNextSequence = async name => {
 };
 
 const workshopAdd = async (_, { workshop }) => {
-  workshopValidate(workshop);
-  workshop.created = new Date();
-  workshop.id = await getNextSequence("workshops");
-  const result = await db.collection("workshops").insertOne(workshop);
+  const newWorkshop = { ...workshop };
+  workshopValidate(newWorkshop);
+  newWorkshop.created = new Date();
+  newWorkshop.id = await getNextSequence("workshops");
+  const result = await db.collection("workshops").insertOne(newWorkshop);
   const savedWorkshop = await db
     .collection("workshops")
     .findOne({ _id: result.insertedId });
@@ -92,11 +92,16 @@ const GraphQLDate = new GraphQLScalarType({
   },
   // gets invoked to parse client input that was passed through variables
   parseValue(value) {
-    return new Date(value);
+    const dateValue = new Date(value);
+    return Number.isNaN(dateValue.getTime()) ? undefined : dateValue;
   },
   // gets invoked to parse client input that was passed inline in the query
   parseLiteral(ast) {
-    return ast.kind === Kind.STRING ? new Date(ast.value) : undefined;
+    if (ast.kind === Kind.STRING) {
+      const value = new Date(ast.value);
+      return Number.isNaN(value.getTime()) ? undefined : value;
+    }
+    return undefined;
   }
 });
 

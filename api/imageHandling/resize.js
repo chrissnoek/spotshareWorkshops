@@ -6,6 +6,7 @@ class Resize {
   constructor(folder) {
     this.folder = folder;
   }
+
   async save(buffer) {
     const filename = Resize.filename();
     const filepath = this.filepath(filename);
@@ -19,9 +20,11 @@ class Resize {
 
     return filename;
   }
+
   static filename() {
     return `${uuidv4()}.png`;
   }
+
   filepath(filename) {
     return path.resolve(`${this.folder}/${filename}`);
   }

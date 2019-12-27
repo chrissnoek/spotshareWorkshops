@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.interceptors.response.use(null, error => {
+axios.interceptors.response.use(null, (error) => {
   const expextedError =
     error.response &&
     error.response.status >= 400 &&
@@ -8,7 +8,6 @@ axios.interceptors.response.use(null, error => {
 
   if (!expextedError) {
     console.log("Logging the error", error);
-    alert("An unexpected error occured.");
   }
 });
 
