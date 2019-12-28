@@ -2,11 +2,11 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: { app: "./src/App.jsx" },
   mode: "development",
   watch: true,
   output: {
-    filename: "App.js",
+    filename: "[name].bundle.js",
     path: path.resolve(__dirname, "public")
   },
   module: {
@@ -37,5 +37,11 @@ module.exports = {
         }
       }
     ]
+  },
+  optimization: {
+    splitChunks: {
+      name: 'vendor',
+      chunks: 'all'
+    }
   }
 };

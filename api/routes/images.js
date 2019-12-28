@@ -110,6 +110,7 @@ const storage = multerS3({
 const upload = multer({ storage });
 
 router.post("/upload", upload.single("workshopImage"), (req, res) => {
+  console.log(req, res);
   const { file } = req;
   console.log(file);
   if (!file) {
