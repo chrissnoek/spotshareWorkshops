@@ -90,7 +90,7 @@ function WorkshopView(props) {
           <div className="workshopContent p-4 absolute bottom-0 left-0">
             <span className="text-white">
               {// convert date type to a readable date string
-              workshop.date.toDateString()}
+                workshop.date.toDateString()}
             </span>
             <div className="workshopInfo">
               <h3 className="text-white">{workshop.title}</h3>
@@ -276,6 +276,7 @@ class WorkshopPage extends Component {
     }`;
 
     const data = await graphQLFetch(query);
+    console.log(data);
     if (data) {
       this.setState({ workshops: result.data.workshopList });
     }
