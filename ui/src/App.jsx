@@ -137,8 +137,9 @@ class WorkshopAdd extends Component {
     const uploadedFile = this.fileInput.current.files[0];
     data.append("workshopImage", uploadedFile);
 
+
     const { data: resources } = await http.post(
-      window.ENV.UI_API_IMAGE_ENDPOINT,
+      'http://localhost:3000/api/images/upload',
       data
     );
     console.log(resources);
@@ -278,7 +279,7 @@ class WorkshopPage extends Component {
     const data = await graphQLFetch(query);
     console.log(data);
     if (data) {
-      this.setState({ workshops: result.data.workshopList });
+      this.setState({ workshops: data.workshopList });
     }
   }
 

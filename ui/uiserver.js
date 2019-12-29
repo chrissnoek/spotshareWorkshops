@@ -7,7 +7,9 @@ app.use(express.static('public'));
 
 const UI_API_ENDPOINT = process.env.UI_API_ENDPOINT ||
   'http://localhost:3000/graphql';
-const env = { UI_API_ENDPOINT };
+const UI_API_IMAGE_ENDPOINT = process.env.UI_API_IMAGE_ENDPOINT ||
+  'http://localhost:3000/api/images/upload';
+const env = { UI_API_ENDPOINT, UI_API_IMAGE_ENDPOINT };
 
 app.get('/env.js', function (req, res) {
   res.send(`window.ENV = ${JSON.stringify(env)}`)
