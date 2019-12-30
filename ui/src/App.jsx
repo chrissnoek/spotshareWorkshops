@@ -62,3 +62,7 @@ const element = <WorkshopList />;
 
 // render
 ReactDOM.render(element, document.getElementById("contents"));
+
+if (module.hot) {
+    module.hot.accept();
+}

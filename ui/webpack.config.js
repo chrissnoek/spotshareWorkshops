@@ -2,7 +2,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: { app: "./src/App.jsx" },
+  entry: { app: ["./src/App.jsx"] },
   mode: "development",
   watch: true,
   output: {
@@ -43,5 +43,6 @@ module.exports = {
       name: 'vendor',
       chunks: 'all'
     }
-  }
+  },
+  devtools: "source-map"
 };
